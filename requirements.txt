@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+websockets
+kafka-python
+pydantic
+python-dotenv
+psycopg2
+sqlalchemy
+pydantic-sqlalchemy
+requests

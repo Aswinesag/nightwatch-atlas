@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="events"></div>
+    
+    <script>
+        const ws = new WebSocket("ws://localhost:8000/ws");
+        const status = document.getElementById('status');
+        const events = document.getElementById('events');
+        
+        ws.onopen = () => {
+            status.innerHTML = "✅ Connected to WebSocket";
+            status.style.color = "green";
+        };
+        
+        ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                console.log("Received:", data);
+                
+                const eventDiv = document.createElement('div');
+                eventDiv.style.margin = '10px 0';
+                eventDiv.style.padding = '10px';
+                eventDiv.style.border = '1px solid #ccc';
+                eventDiv.style.borderRadius = '5px';
+                eventDiv.innerHTML = `
+                    <strong>${data.title || 'No title'}</strong><br>
+                    Risk: ${data.risk || 0}<br>
+                    Type: ${data.type || 'unknown'}<br>
+                    Location: ${data.lat || data.latitude || 'N/A'}, ${data.lon || data.longitude || 'N/A'}<br>
+                    Alert: ${data.alert_level || 'none'}<br>
+                    <small>${new Date().toLocaleString()}</small>
+                `;
+                events.appendChild(eventDiv);
+                
+                // Keep only last 10 events
+                while (events.children.length > 10) {
+                    events.removeChild(events.firstChild);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+        
+        ws.onerror = (error) => {
+            status.innerHTML = "❌ WebSocket Error";
+            status.style.color = "red";
+            console.error("WebSocket error:", error);
+        };
+        
+        ws.onclose = (event) => {
+            status.innerHTML = "🔌 WebSocket Disconnected";
+            status.style.color = "orange";
+            console.log("WebSocket closed:", event.code, event.reason);
+        };
+    </script>
+</body>
+</html>
