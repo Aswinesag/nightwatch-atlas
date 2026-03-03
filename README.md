@@ -171,7 +171,4 @@ curl "http://localhost:8000/events?limit=5"
 - Restrict CORS origins and WebSocket exposure in non-dev environments.
 - Validate third-party feed licensing/terms before commercial deployment.
 
-## License
-
-No license file is currently defined in this repository.  
-If this is intended for distribution, add an explicit `LICENSE` file.
+VIDEO DEMO LINK : https://vimeo.com/1170005346?fl=ip&fe=ec
